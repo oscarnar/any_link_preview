@@ -11,6 +11,24 @@
 
 A flutter package which will help you to show preview of the web url's with beautiful & completely customizable design. Can be useful for Chat application 🤓🤓
 
+## Link to try the package
+
+- https://www.tiktok.com/@gotitas.de/video/7323454372162063621
+- https://x.com/PitucadeBarrio2/status/1753085543687082083
+- https://youtu.be/BpwDFKFkpOY
+- https://www.elpais.com.uy/ovacion/futbol/tras-su-salida-de-la-seleccion-uruguaya-sub-20-se-confirmo-el-nuevo-destino-deportivo-de-marcelo-broli
+- https://mashable.com/article/apple-vision-pro-available
+- [https://www.amazon.com/Potter-c%C3%A1mara-secreta-colecci%C3%B3n-Spanish-ebook/dp/B0192CTNJ0/?_encoding=UTF8&pd_rd_w=1d2Oj&content-id=amzn1.sym.379956f8-690b-4143-ad17-ba606cbec0c1&pf_rd_p=379956f8-690b-4143-ad17-ba606cbec0c1&pf_rd_r=84JGXCC0QHEXXB6ZGPVH&pd_rd_wg=y3w8j&pd_rd_r=12ce3a30-37dc-4e80-b470-73dd2e5e1873&ref_=pd_gw_bmx27b](https://www.amazon.com/Potter-c%C3%A1mara-secreta-colecci%C3%B3n-Spanish-ebook/dp/B0192CTNJ0/?_encoding=UTF8&pd_rd_w=1d2Oj&content-id=amzn1.sym.379956f8-690b-4143-ad17-ba606cbec0c1&pf_rd_p=379956f8-690b-4143-ad17-ba606cbec0c1&pf_rd_r=84JGXCC0QHEXXB6ZGPVH&pd_rd_wg=y3w8j&pd_rd_r=12ce3a30-37dc-4e80-b470-73dd2e5e1873&ref_=pd_gw_bmx27b)
+- https://www.reddit.com/r/Stremio/comments/vh99r6/how_to_share_the_streaming_link/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+- https://lemon.com.uy/catalogo/zueco-cuero-combinado-negro_467818_1
+- https://en.wikipedia.org/wiki/Luis_Su%C3%A1rez
+- https://www.nytimes.com/2024/01/31/style/parents-free-child-care.html
+- https://www.pinterest.com/pin/621778292295850549/
+- https://www.twitch.tv/rengarsitoo
+- https://es.quora.com/C%C3%B3mo-es-vivir-en-Montevideo-qu%C3%A9-ventajas-tiene
+- https://weather.com/news/weather/news/2024-02-02-groundhog-day-shadow-punxsutawney-phil
+
+
 ## Features 💚
 
 - Uses 4 different types of parser's to fetch meta data
@@ -160,6 +178,7 @@ Thanks to all the contributors
 ```Dart
 AnyLinkPreview(
     link: "https://vardaan.app/",
+    apiKey: 'YOUR-LINKPREVIEW-API-KEY',
     displayDirection: UIDirection.uiDirectionHorizontal,
     showMultimedia: false,
     bodyMaxLines: 5,
