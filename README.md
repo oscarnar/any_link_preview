@@ -163,15 +163,7 @@ A flutter package which will help you to show preview of the web url's with beau
   final Widget Function(BuildContext, Metadata, ImageProvider?)? itemBuilder;
 
 ```
-
-## Special Thanks ✨
-
-Thanks to all the contributors
-
-<a href = "https://github.com/sur950/any_link_preview/graphs/contributors">
-  <img src = "https://contrib.rocks/image?repo=sur950/any_link_preview"/>
-</a>
-<br />
+## Examples 🎉
 
 **The AnyLinkPreview widget example**
 
@@ -348,6 +340,15 @@ class _MyAppState extends State<MyApp> {
 }
 
 ```
+
+## Special Thanks ✨
+
+Thanks to all the contributors
+
+<a href = "https://github.com/sur950/any_link_preview/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=sur950/any_link_preview"/>
+</a>
+<br />
 
 ### License
 
