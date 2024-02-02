@@ -12,8 +12,10 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  dio: ^5.4.0
   flutter:
     sdk: flutter
+  flutter_link_previewer: ^3.2.2
   html: ^0.15.3
   http: ^1.0.0
   shared_preferences: ^2.1.1

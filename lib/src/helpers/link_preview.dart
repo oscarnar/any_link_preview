@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -102,6 +104,9 @@ class AnyLinkPreview extends StatefulWidget {
   /// `(MediaQuery.of(context).size.height) * 0.25` in case of vertical
   final double? previewHeight;
 
+  /// API KEY for linkpreview.net, for a stronger and more reliable metadata fetching
+  final String? apiKey;
+
   /// Function only in [AnyLinkPreview.builder]
   /// allows to build a custom [Widget] from the [Metadata] and [ImageProvider] fetched
   final Widget Function(BuildContext, Metadata, ImageProvider?)? itemBuilder;
@@ -130,6 +135,7 @@ class AnyLinkPreview extends StatefulWidget {
     this.onTap,
     this.previewHeight,
     this.urlLaunchMode = LaunchMode.platformDefault,
+    this.apiKey,
   })  : itemBuilder = null,
         super(key: key);
 
@@ -142,6 +148,7 @@ class AnyLinkPreview extends StatefulWidget {
     this.errorWidget,
     this.proxyUrl,
     this.headers,
+    this.apiKey,
   })  : titleStyle = null,
         bodyStyle = null,
         displayDirection = UIDirection.uiDirectionVertical,
@@ -169,6 +176,10 @@ class AnyLinkPreview extends StatefulWidget {
     String? proxyUrl = '', // Pass for web
     Duration? cache = const Duration(days: 1),
     Map<String, String>? headers,
+    bool forceToUseAPI = false,
+
+    /// API KEY for linkpreview.net, must be passed if forceToUseAPI is true
+    String? apiKey,
   }) async {
     var linkValid = isValidLink(link);
     var proxyValid = true;
@@ -181,6 +192,8 @@ class AnyLinkPreview extends StatefulWidget {
         linkToFetch,
         cache: cache,
         headers: headers ?? {},
+        forceToUseAPI: forceToUseAPI,
+        apiKey: apiKey,
       );
     } else if (!linkValid) {
       throw Exception('Invalid link');
@@ -194,9 +207,21 @@ class AnyLinkPreview extends StatefulWidget {
     String link, {
     Duration? cache = const Duration(days: 1),
     Map<String, String>? headers,
+    bool forceToUseAPI = false,
+    String? apiKey,
   }) async {
     try {
-      var info = await LinkAnalyzer.getInfo(
+      /// Common use case for some websites
+      if (link.contains('x.com')) {
+        link = link.replaceAll('x.com', 'twitter.com');
+      }
+      if (link.contains('amazon.com')) {
+        forceToUseAPI = true;
+      }
+
+      Metadata? info;
+
+      info = await LinkAnalyzer.getInfo(
         link,
         cache: cache,
         headers: headers ?? {},
@@ -208,6 +233,39 @@ class AnyLinkPreview extends StatefulWidget {
           cache: cache,
           headers: headers ?? {},
         );
+      }
+
+      /// If still no data is available, try to get metadata from flutter_link_previewer
+      if (info?.image == null || info?.title == null || info?.desc == null) {
+        info ??= Metadata.fromJson({MetadataKeys.kTimeout: 0});
+        var previewData = await getPreviewData(link);
+        info.desc ??= previewData.description;
+        info.title ??= previewData.title;
+        info.image ??= previewData.image?.url;
+        info.url ??= previewData.link;
+      }
+
+      /// If still no data is available, try to fetch from linkpreview.net
+      if (info?.image == null ||
+          info?.title == null ||
+          info?.desc == null ||
+          forceToUseAPI && apiKey != null && apiKey.isNotEmpty) {
+        info ??= Metadata.fromJson({MetadataKeys.kTimeout: 0});
+        final dio = Dio();
+        Response response;
+        response = await dio.post(
+          'https://api.linkpreview.net',
+          data: {'q': link},
+          options: Options(
+            headers: {'X-Linkpreview-Api-Key': apiKey},
+          ),
+        );
+        if (response.statusCode == 200) {
+          info.title = response.data[MetadataKeys.kTitle];
+          info.desc = response.data[MetadataKeys.kDescription];
+          info.image = response.data[MetadataKeys.kImage];
+          info.url = link;
+        }
       }
       return info;
     } catch (error) {
