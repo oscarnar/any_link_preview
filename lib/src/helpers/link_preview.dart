@@ -342,6 +342,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
       link,
       cache: widget.cache,
       headers: widget.headers,
+      apiKey: widget.apiKey,
     );
     if (mounted) {
       setState(() {
