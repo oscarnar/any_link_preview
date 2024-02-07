@@ -216,7 +216,7 @@ class AnyLinkPreview extends StatefulWidget {
         link = link.replaceAll('x.com', 'twitter.com');
       }
       if (link.contains('amazon.com')) {
-        forceToUseAPI = true;
+      //  forceToUseAPI = true;
       }
 
       Metadata? info;
