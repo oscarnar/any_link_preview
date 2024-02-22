@@ -8,9 +8,9 @@ import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'link_analyzer.dart';
 import '../widgets/link_view_horizontal.dart';
 import '../widgets/link_view_vertical.dart';
+import 'link_analyzer.dart';
 
 enum UIDirection { uiDirectionVertical, uiDirectionHorizontal }
 
@@ -216,7 +216,7 @@ class AnyLinkPreview extends StatefulWidget {
         link = link.replaceAll('x.com', 'twitter.com');
       }
       if (link.contains('amazon.com')) {
-      //  forceToUseAPI = true;
+        //  forceToUseAPI = true;
       }
 
       Metadata? info;
@@ -246,10 +246,12 @@ class AnyLinkPreview extends StatefulWidget {
       }
 
       /// If still no data is available, try to fetch from linkpreview.net
-      if (info?.image == null ||
-          info?.title == null ||
-          info?.desc == null ||
-          forceToUseAPI && apiKey != null && apiKey.isNotEmpty) {
+      if ((info?.image == null ||
+              info?.title == null ||
+              info?.desc == null ||
+              forceToUseAPI) &&
+          apiKey != null &&
+          apiKey.isNotEmpty) {
         info ??= Metadata.fromJson({MetadataKeys.kTimeout: 0});
         final dio = Dio();
         Response response;
